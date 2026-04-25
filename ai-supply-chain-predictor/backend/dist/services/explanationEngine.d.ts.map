@@ -1,0 +1,1 @@
+{"version":3,"file":"explanationEngine.d.ts","sourceRoot":"","sources":["../../src/services/explanationEngine.ts"],"names":[],"mappings":"AAEA,MAAM,WAAW,YAAY;IAC3B,WAAW,EAAE,MAAM,CAAC;IACpB,MAAM,EAAE,MAAM,CAAC;IACf,KAAK,EAAE,MAAM,CAAC;CACf;AAED,eAAO,MAAM,wBAAwB,GACnC,eAAe,MAAM,EAAE,EACvB,UAAU,MAAM,EAAE,EAClB,SAAS,YAAY,EACrB,iBAAiB,GAAG,KACnB,OAAO,CAAC,MAAM,CAShB,CAAC"}

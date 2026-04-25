@@ -1,0 +1,1 @@
+{"version":3,"file":"astar.d.ts","sourceRoot":"","sources":["../../src/algorithms/astar.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,EAAQ,MAAM,SAAS,CAAC;AAEtC,MAAM,WAAW,WAAW;IAC1B,IAAI,EAAE,MAAM,EAAE,CAAC;IACf,QAAQ,EAAE,MAAM,CAAC;CAClB;AAQD,eAAO,MAAM,QAAQ,GAAI,OAAO,KAAK,EAAE,SAAS,MAAM,EAAE,OAAO,MAAM,KAAG,WA6DvE,CAAC"}
