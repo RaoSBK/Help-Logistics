@@ -1,8 +1,8 @@
 import RiskPanel from '../features/disruption-risk/RiskPanel';
-import RoutingPanel from '../features/alternate-routing/RoutingPanel';
 import EtaPanel from '../features/eta-prediction/EtaPanel';
 import CongestionPanel from '../features/bottleneck-detection/CongestionPanel';
 import CopilotPanel from '../features/logistics-copilot/CopilotPanel';
+import LiveRouteDashboard from '../features/live-routing/LiveRouteDashboard';
 import { Network } from 'lucide-react';
 
 export default function Dashboard() {
@@ -34,16 +34,9 @@ export default function Dashboard() {
           <EtaPanel />
         </div>
 
-        {/* Middle Column: Map & Routing */}
+        {/* Middle Column: Live Routing & Congestion */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="glass-panel h-64 flex flex-col items-center justify-center relative overflow-hidden border-dashed bg-slate-900 border-slate-700">
-            {/* Map Placeholder */}
-            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(#0ea5e9 1px, transparent 1px)", backgroundSize: "20px 20px" }}></div>
-            <Network size={48} className="text-slate-600 mb-4 z-10" />
-            <p className="text-slate-500 font-medium z-10">Interactive Route Visualization Map</p>
-            <p className="text-xs text-slate-600 mt-2 z-10">(MapBox/Leaflet Integration Point)</p>
-          </div>
-          <RoutingPanel />
+          <LiveRouteDashboard />
           <CongestionPanel />
         </div>
 

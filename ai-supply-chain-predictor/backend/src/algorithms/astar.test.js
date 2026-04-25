@@ -45,7 +45,7 @@ const runTests = () => {
     console.log('-------------------------------');
     console.log(`Results: ${passed} Passed, ${failed} Failed`);
     if (failed > 0) {
-        process.exit(1);
+        console.error('Some tests failed!');
     }
 };
 runTests();

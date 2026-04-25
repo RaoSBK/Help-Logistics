@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postCopilotQuery = exports.getDetectBottleneck = exports.getPredictEta = exports.getAlternateRoute = exports.getRiskScore = void 0;
-const express_1 = require("express");
 const riskEngine_1 = require("../services/riskEngine");
 const routingEngine_1 = require("../services/routingEngine");
 const etaEngine_1 = require("../services/etaEngine");

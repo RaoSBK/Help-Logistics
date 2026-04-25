@@ -1,4 +1,5 @@
-import { useState, FormEvent, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import type { FormEvent } from 'react';
 import { requestCopilotQuery } from '../../api';
 import { Bot, Send, User } from 'lucide-react';
 

@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.runAStar = void 0;
-const graph_1 = require("./graph");
 const heuristic = (nodeA, nodeB) => {
     const dx = nodeA.coords.x - nodeB.coords.x;
     const dy = nodeA.coords.y - nodeB.coords.y;

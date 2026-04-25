@@ -7,6 +7,8 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const api_1 = __importDefault(require("./routes/api"));
+const http_1 = __importDefault(require("http"));
+const routeUpdates_1 = require("./sockets/routeUpdates");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3001;
@@ -16,7 +18,9 @@ app.use('/api', api_1.default);
 app.get('/', (req, res) => {
     res.send('AI Supply Chain Disruption Predictor API');
 });
-app.listen(port, () => {
+const server = http_1.default.createServer(app);
+(0, routeUpdates_1.initSockets)(server);
+server.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 //# sourceMappingURL=index.js.map
