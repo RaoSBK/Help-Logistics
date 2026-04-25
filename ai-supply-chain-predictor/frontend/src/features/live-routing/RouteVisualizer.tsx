@@ -31,21 +31,20 @@ export default function RouteVisualizer({ routeData }: { routeData: any }) {
             const isActive = currentRoute.includes(edge.from) && currentRoute.includes(edge.to) && 
               Math.abs(currentRoute.indexOf(edge.from) - currentRoute.indexOf(edge.to)) === 1;
 
-            let strokeColor = "rgba(100, 116, 139, 0.3)"; // default slate
-            let strokeWidth = "1";
+            let strokeColor = "rgba(148, 163, 184, 0.4)"; // light slate for inactive
+            let strokeWidth = "1.5";
             let strokeDasharray = "none";
             
             if (isClosed) {
-                strokeColor = "rgba(239, 68, 68, 0.8)"; // red
+                strokeColor = "rgba(239, 68, 68, 0.6)"; // red
                 strokeDasharray = "2,2";
             } else if (isDisrupted) {
-                strokeColor = "rgba(234, 179, 8, 0.8)"; // yellow
+                strokeColor = "rgba(249, 115, 22, 0.6)"; // orange
             }
 
             if (isActive) {
-                strokeColor = "rgba(14, 165, 233, 0.8)"; // brand cyan
-                strokeWidth = "2";
-                if (isDisrupted && !isClosed) strokeColor = "rgba(16, 185, 129, 0.8)"; // green if bypassing disruption
+                strokeColor = "rgba(59, 130, 246, 1)"; // primary blue for active route
+                strokeWidth = "2.5";
             }
 
             return (
@@ -62,17 +61,39 @@ export default function RouteVisualizer({ routeData }: { routeData: any }) {
         )}
 
         {/* Draw Nodes */}
-        {Object.entries(nodeCoords).map(([id, coords]) => (
+        {Object.entries(nodeCoords).map(([id, coords]) => {
+          let fill = "#cbd5e1"; // default slate-300
+          let stroke = "#94a3b8"; // default slate-400
+          
+          if (id === 'A') {
+            fill = "#10b981"; // emerald
+            stroke = "#059669";
+          } else if (id === 'D') {
+            fill = "#ef4444"; // red
+            stroke = "#dc2626";
+          } else if (currentRoute.includes(id)) {
+            fill = "#3b82f6"; // blue
+            stroke = "#2563eb";
+          }
+
+          // Check if node is disrupted
+          const isDisrupted = routeData.graphEdges.some((nd: any) => nd.node === id && nd.edges.some((e: any) => e.disruptionMultiplier > 1));
+          if (isDisrupted && id !== 'A' && id !== 'D') {
+             fill = "#f97316"; // orange
+             stroke = "#ea580c";
+          }
+
+          return (
           <g key={id}>
             <circle 
-              cx={coords.x} cy={coords.y} r="4" 
-              fill={currentRoute.includes(id) ? "#0ea5e9" : "#1e293b"} 
-              stroke={currentRoute.includes(id) ? "#bae6fd" : "#475569"} 
+              cx={coords.x} cy={coords.y} r="3.5" 
+              fill={fill} 
+              stroke={stroke} 
               strokeWidth="1" 
             />
-            <text x={coords.x} y={coords.y - 6} fontSize="4" fill="#cbd5e1" textAnchor="middle">{id}</text>
+            <text x={coords.x} y={coords.y + 1} fontSize="3" fill="#ffffff" fontWeight="bold" textAnchor="middle">{id}</text>
           </g>
-        ))}
+        )})}
       </svg>
     </div>
   );
