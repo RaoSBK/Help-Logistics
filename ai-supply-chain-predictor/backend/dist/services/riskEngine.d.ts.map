@@ -1,0 +1,1 @@
+{"version":3,"file":"riskEngine.d.ts","sourceRoot":"","sources":["../../src/services/riskEngine.ts"],"names":[],"mappings":"AAEA,UAAU,QAAQ;IAChB,KAAK,EAAE,MAAM,CAAC;IACd,OAAO,CAAC,EAAE,MAAM,CAAC;IACjB,OAAO,CAAC,EAAE,MAAM,CAAC;IACjB,SAAS,CAAC,EAAE,MAAM,CAAC;CACpB;AAED,eAAO,MAAM,kBAAkB,GAAU,MAAM,QAAQ;;;;;;;;;;EAqCtD,CAAC"}
