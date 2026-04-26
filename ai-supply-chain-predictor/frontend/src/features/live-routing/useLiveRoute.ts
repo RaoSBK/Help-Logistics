@@ -12,6 +12,11 @@ export interface RouteUpdate {
   aiExplanation: string;
   disruptionEvent?: any;
   graphEdges?: {node: string, edges: any[]}[];
+  riskScore?: {
+    score: number;
+    level: 'Low' | 'Medium' | 'High';
+    explanation: string;
+  };
 }
 
 export const useLiveRoute = () => {
