@@ -2,6 +2,8 @@ import { graphManager } from './graphWeightUpdater';
 import { runDijkstra } from '../algorithms/dijkstra';
 import { createMockNetwork } from '../algorithms/graph';
 import { generateRouteExplanation } from './explanationEngine';
+import { predictEta } from './etaEngine';
+import { eventBus, EVENTS } from './eventBus';
 
 let originalResultCache: any = null;
 
@@ -18,6 +20,11 @@ export const recomputeRoute = async (start: string, end: string, disruptionEvent
 
   let aiExplanation = 'Optimal route calculated under current network conditions.';
 
+  const eta = predictEta({
+    baseTimeMinutes: originalResult.distance,
+    disruptionEvent
+  });
+
   if (alternateResult.distance === Infinity || alternateResult.path.length === 0) {
     return {
       originalRoute: originalResult.path,
@@ -27,6 +34,7 @@ export const recomputeRoute = async (start: string, end: string, disruptionEvent
         newEta: Infinity,
         delta: "N/A"
       },
+      eta,
       aiExplanation: "CRITICAL: All viable routes to Destination are currently blocked.",
       disruptionEvent,
       graph: Array.from(graph.edges.entries()).map(([node, edges]) => ({ node, edges }))
@@ -55,9 +63,15 @@ export const recomputeRoute = async (start: string, end: string, disruptionEvent
     originalRoute: originalResult.path,
     alternateRoute: alternateResult.path,
     metrics,
+    eta,
     aiExplanation,
     disruptionEvent,
     // Send edges so frontend can visualize disruption weights
     graphEdges: Array.from(graph.edges.entries()).map(([node, edges]) => ({ node, edges }))
   };
 };
+
+eventBus.on(EVENTS.DISRUPTION_DETECTED, async ({ start, end, eventInfo }) => {
+  const routeUpdate = await recomputeRoute(start, end, eventInfo);
+  eventBus.emit(EVENTS.ROUTE_RECOMPUTED, routeUpdate);
+});

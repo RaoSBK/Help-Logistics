@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { socket } from './routeSocketClient';
+import { useStore } from '../../store/useStore';
 
 export interface RouteUpdate {
   originalRoute: string[];
@@ -8,6 +9,19 @@ export interface RouteUpdate {
     originalEta: number;
     newEta: number;
     delta: string;
+  };
+  eta?: {
+    totalEtaMinutes: number;
+    breakdown: {
+      base: number;
+      trafficDelay: number;
+      weatherDelay: number;
+      congestion: number;
+      riskBuffer: number;
+    };
+    confidence: number;
+    estimatedArrival: string;
+    explanation: string;
   };
   aiExplanation: string;
   disruptionEvent?: any;
@@ -33,14 +47,19 @@ export const useLiveRoute = () => {
 
     socket.on('initial_route', (data: RouteUpdate) => {
       setRouteData(data);
+      if (data.eta) useStore.getState().setEtaPrediction(data.eta);
     });
 
     socket.on('route_update', (data: RouteUpdate) => {
       setRouteData(data);
+      if (data.eta) useStore.getState().setEtaPrediction(data.eta);
     });
 
     return () => {
-      socket.disconnect();
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.off('initial_route');
+      socket.off('route_update');
     };
   }, []);
 

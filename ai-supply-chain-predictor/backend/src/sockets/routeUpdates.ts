@@ -1,7 +1,8 @@
 import { Server } from 'socket.io';
 import { Server as HttpServer } from 'http';
-import { startDisruptionEngine, stopDisruptionEngine } from '../services/disruptionEngine';
+import { startDisruptionEngine, stopDisruptionEngine, triggerDisruption } from '../services/disruptionEngine';
 import { recomputeRoute } from '../services/routeRecomputeEngine';
+import { eventBus, EVENTS } from '../services/eventBus';
 
 let io: Server;
 
@@ -20,6 +21,9 @@ export const initSockets = (server: HttpServer) => {
     const initialRoute = await recomputeRoute('A', 'D');
     socket.emit('initial_route', initialRoute);
 
+    // Auto-start simulation so numbers are always live
+    startDisruptionEngine('A', 'D');
+
     socket.on('start_simulation', (data) => {
       const { start = 'A', end = 'D' } = data || {};
       startDisruptionEngine(start, end);
@@ -27,6 +31,10 @@ export const initSockets = (server: HttpServer) => {
 
     socket.on('stop_simulation', () => {
       stopDisruptionEngine();
+    });
+
+    socket.on('request_refresh', () => {
+      triggerDisruption('A', 'D');
     });
 
     socket.on('disconnect', () => {
@@ -40,3 +48,8 @@ export const broadcastRouteUpdate = (update: any) => {
     io.emit('route_update', update);
   }
 };
+
+eventBus.on(EVENTS.ROUTE_RECOMPUTED, (update) => {
+  console.log('Broadcasting route update to clients from event bus');
+  broadcastRouteUpdate(update);
+});
