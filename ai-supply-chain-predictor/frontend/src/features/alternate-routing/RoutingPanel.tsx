@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useStore } from '../../store/useStore';
 import { requestAlternateRoute } from '../../api';
-import { Map, ArrowRight, Zap, AlertTriangle, Sparkles } from 'lucide-react';
+import { Map, ArrowRight, Zap, AlertTriangle } from 'lucide-react';
 
 const nodeOptions = [
   { value: 'A', label: 'Origin Facility' },
@@ -25,10 +25,10 @@ export default function RoutingPanel() {
       const disruption = disruptionType === 'none' ? null : disruptionType === 'closure_ab'
         ? { fromNode: 'A', toNode: 'B', severityMultiplier: Infinity }
         : disruptionType === 'traffic_bc'
-        ? { fromNode: 'B', toNode: 'C', severityMultiplier: 1.6 }
-        : disruptionType === 'storm_ce'
-        ? { fromNode: 'C', toNode: 'E', severityMultiplier: 1.4 }
-        : null;
+          ? { fromNode: 'B', toNode: 'C', severityMultiplier: 1.6 }
+          : disruptionType === 'storm_ce'
+            ? { fromNode: 'C', toNode: 'E', severityMultiplier: 1.4 }
+            : null;
 
       const payload = {
         start,
@@ -51,7 +51,7 @@ export default function RoutingPanel() {
         <Map className="text-blue-500" size={16} />
         Smart Routing Optimization
       </h2>
-      
+
 
       {!alternateRoute ? (
         <div className="py-2 space-y-4 flex-1 flex flex-col justify-between">
@@ -89,14 +89,14 @@ export default function RoutingPanel() {
               </select>
             </div>
           </div>
-          
+
           <div className="text-[10px] text-slate-500 leading-snug">
             <p><strong>Tip:</strong> Keep the start and end points the same to compare the original route with the optimized suggestion.</p>
             <p className="mt-1">The route suggestion uses live network conditions to reduce delays or avoid blocked roads.</p>
           </div>
           <button onClick={findRoute} disabled={loading} className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 text-sm shadow-sm">
-            {loading ? <Zap className="animate-spin text-white" size={16} /> : 
-            <><AlertTriangle size={16} className="text-white" /> Generate Alternate Route</>}
+            {loading ? <Zap className="animate-spin text-white" size={16} /> :
+              <><AlertTriangle size={16} className="text-white" /> Generate Alternate Route</>}
           </button>
         </div>
       ) : (
@@ -112,7 +112,7 @@ export default function RoutingPanel() {
               ))}
             </div>
           </div>
-          
+
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
             <div className="flex flex-wrap gap-2 items-center justify-between mb-3">
               <div>
@@ -133,7 +133,7 @@ export default function RoutingPanel() {
                 </div>
               ))}
             </div>
-            
+
             <div className="mt-4 p-3 bg-white rounded-lg border border-slate-200 shadow-sm">
               <p className="text-[10px] text-blue-600 font-semibold mb-2 uppercase tracking-wider">Live Network Insight</p>
               <p className="text-xs text-slate-700 leading-relaxed">

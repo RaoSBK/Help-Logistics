@@ -2,10 +2,14 @@ import { useState, useRef, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { requestCopilotQuery } from '../../api';
 import { Bot, Send, User } from 'lucide-react';
+import RouteRecommendationWidget from './widgets/RouteRecommendationWidget';
+import RiskAssessmentWidget from './widgets/RiskAssessmentWidget';
 
 interface Msg {
   sender: 'ai' | 'user';
   text: string;
+  component?: string | null;
+  payload?: any;
 }
 
 export default function CopilotPanel() {
@@ -30,12 +34,31 @@ export default function CopilotPanel() {
     setLoading(true);
 
     try {
-      const data = await requestCopilotQuery({ query: userQuery, shipmentDetails: { id: 'SHP-998', status: 'IN_TRANSIT' } });
-      setMessages(prev => [...prev, { sender: 'ai', text: data.response }]);
+      // Using 'SHP-123' to test the HIGH risk disruption scenario from our backend mock
+      const data = await requestCopilotQuery({ query: userQuery, shipmentDetails: { id: 'SHP-123', status: 'IN_TRANSIT' } });
+      
+      setMessages(prev => [...prev, { 
+        sender: 'ai', 
+        text: data.textResponse || data.response || 'Action completed.',
+        component: data.uiComponent,
+        payload: data.uiPayload
+      }]);
     } catch (error) {
       setMessages(prev => [...prev, { sender: 'ai', text: 'Sorry, I encountered an error. Please try again.' }]);
     }
     setLoading(false);
+  };
+
+  const renderWidget = (component?: string | null, payload?: any) => {
+    if (!component || !payload) return null;
+    switch (component) {
+      case 'RouteRecommendationWidget':
+        return <RouteRecommendationWidget data={payload} />;
+      case 'RiskAssessmentWidget':
+        return <RiskAssessmentWidget data={payload} />;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -47,7 +70,7 @@ export default function CopilotPanel() {
         Logistics Copilot
       </h2>
       
-      <div className="flex-1 overflow-y-auto mb-4 space-y-4 pr-2 custom-scrollbar">
+      <div className="flex-1 mb-4 space-y-4 pr-2">
         {messages.map((msg, i) => (
           <div key={i} className={`flex gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
             {msg.sender === 'ai' && (
@@ -55,9 +78,19 @@ export default function CopilotPanel() {
                 <Bot size={16} className="text-blue-600" />
               </div>
             )}
-            <div className={`px-4 py-2.5 text-[13px] leading-relaxed max-w-[85%] rounded-2xl shadow-sm ${msg.sender === 'user' ? 'bg-blue-600 text-white rounded-br-none' : 'bg-slate-50 text-slate-700 rounded-bl-none border border-slate-200'}`}>
-              {msg.text}
+            
+            <div className={`flex flex-col max-w-[85%] ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}>
+              <div className={`px-4 py-2.5 text-[13px] leading-relaxed rounded-2xl shadow-sm ${msg.sender === 'user' ? 'bg-blue-600 text-white rounded-br-none' : 'bg-slate-50 text-slate-700 rounded-bl-none border border-slate-200'}`}>
+                {msg.text}
+              </div>
+              
+              {msg.sender === 'ai' && msg.component && (
+                <div className="mt-1 w-full flex justify-start">
+                  {renderWidget(msg.component, msg.payload)}
+                </div>
+              )}
             </div>
+
             {msg.sender === 'user' && (
               <div className="w-8 h-8 rounded-full bg-slate-100 flex-shrink-0 flex items-center justify-center border border-slate-200 shadow-sm">
                 <User size={16} className="text-slate-500" />
