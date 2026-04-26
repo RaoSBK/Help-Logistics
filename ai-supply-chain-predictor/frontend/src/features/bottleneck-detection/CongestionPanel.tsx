@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useStore } from '../../store/useStore';
 import { requestDetectBottleneck } from '../../api';
+import { socket } from '../live-routing/routeSocketClient';
 import { AlertTriangle, Activity, Zap, GitBranch, ArrowRight, Clock3, RefreshCw } from 'lucide-react';
 
 // Severity → color mapping
@@ -31,36 +32,146 @@ function MetricBar({ label, value, max = 100, unit = '%', color = 'bg-brand-400'
 export default function CongestionPanel() {
   const { bottleneck, setBottleneck } = useStore();
   const [loading, setLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [liveMode, setLiveMode] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<number | null>(null);
+  const [nextRefreshInSec, setNextRefreshInSec] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [scanCount, setScanCount] = useState(0);
-  const pollInterval = 12000;
+  const [refreshReason, setRefreshReason] = useState<string | null>(null);
+  const nextRefreshDeadline = useRef<number | null>(null);
+  const liveModeRef = useRef(liveMode);
+  const refreshReasonTimeout = useRef<number | null>(null);
+  const lastAutoRefresh = useRef<number>(0);
+  const pollIntervalSeconds = 12;
+  const pollInterval = pollIntervalSeconds * 1000;
+  const minAutoRefreshInterval = pollInterval;
+
+  const updateCountdown = () => {
+    if (!nextRefreshDeadline.current) return;
+    const remainingMs = Math.max(0, nextRefreshDeadline.current - Date.now());
+    const seconds = Math.ceil(remainingMs / 1000);
+    setNextRefreshInSec(seconds);
+  };
+
+  const clearRefreshReason = () => {
+    if (refreshReasonTimeout.current) {
+      window.clearTimeout(refreshReasonTimeout.current);
+      refreshReasonTimeout.current = null;
+    }
+  };
+
+  const resetCountdown = () => {
+    nextRefreshDeadline.current = Date.now() + pollInterval;
+    setNextRefreshInSec(pollIntervalSeconds);
+  };
+
+  const showRefreshReason = (message: string, persist = false) => {
+    clearRefreshReason();
+    setRefreshReason(message);
+    if (!persist) {
+      refreshReasonTimeout.current = window.setTimeout(() => {
+        setRefreshReason(null);
+        refreshReasonTimeout.current = null;
+      }, 6000);
+    }
+  };
 
   const detect = async ({ auto = false } = {}) => {
-    if (!auto) setLoading(true);
+    const now = Date.now();
+
+    if (auto && now - lastAutoRefresh.current < minAutoRefreshInterval) {
+      return;
+    }
+
+    if (!auto) {
+      setLoading(true);
+    } else {
+      setIsRefreshing(true);
+    }
+
     setError(null);
 
     try {
       const data = await requestDetectBottleneck({ region: 'North Corridor' });
-      setBottleneck(data);
+      setBottleneck({
+        ...data,
+        metrics: { ...data.metrics },
+        bottleneckEdge: data.bottleneckEdge ? { ...data.bottleneckEdge } : null,
+        criticalPath: [...(data.criticalPath ?? [])],
+        affectedNodes: [...(data.affectedNodes ?? [])],
+      });
       setLastUpdated(data.timestamp ?? Date.now());
       setScanCount((count) => count + 1);
+
+      if (auto) {
+        lastAutoRefresh.current = now;
+        resetCountdown();
+      }
     } catch (e) {
       console.error(e);
       setError('Unable to fetch live congestion data.');
+      showRefreshReason('Live refresh failed. Retrying shortly...');
     } finally {
-      if (!auto) setLoading(false);
+      if (!auto) {
+        setLoading(false);
+      } else {
+        setIsRefreshing(false);
+      }
     }
   };
 
   useEffect(() => {
-    if (!liveMode) return;
+    liveModeRef.current = liveMode;
+  }, [liveMode]);
+
+  useEffect(() => {
+    if (!liveMode) {
+      nextRefreshDeadline.current = null;
+      setNextRefreshInSec(null);
+      clearRefreshReason();
+      return;
+    }
 
     detect({ auto: true });
-    const interval = window.setInterval(() => detect({ auto: true }), pollInterval);
-    return () => window.clearInterval(interval);
+    updateCountdown();
+
+    const countdownTimer = window.setInterval(() => {
+      updateCountdown();
+    }, 1000);
+
+    const refreshTimer = window.setInterval(() => {
+      detect({ auto: true });
+    }, pollInterval);
+
+    return () => {
+      window.clearInterval(countdownTimer);
+      window.clearInterval(refreshTimer);
+    };
   }, [liveMode]);
+
+  useEffect(() => {
+    const handleRouteUpdate = (data: any) => {
+      if (!liveModeRef.current) return;
+      if (data?.disruptionEvent) {
+        const now = Date.now();
+        if (now - lastAutoRefresh.current < minAutoRefreshInterval) {
+          return;
+        }
+        detect({ auto: true });
+      }
+    };
+
+    if (!socket.connected) {
+      socket.connect();
+    }
+
+    socket.on('route_update', handleRouteUpdate);
+
+    return () => {
+      socket.off('route_update', handleRouteUpdate);
+    };
+  }, []);
 
   const colors = bottleneck ? (SEVERITY_COLORS[bottleneck.severity] ?? SEVERITY_COLORS.High) : SEVERITY_COLORS.High;
 
@@ -72,13 +183,19 @@ export default function CongestionPanel() {
       </h2>
 
       <div className="mb-4 text-xs text-slate-400 flex flex-wrap gap-2 items-center justify-between">
-        <span>{liveMode ? 'Live monitoring enabled' : 'Manual scan only'}</span>
+        <span>{liveMode ? 'Live scan active' : 'Manual scan only'}</span>
         <span className="flex items-center gap-1">
           <Clock3 size={14} />
           {lastUpdated ? new Date(lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : 'Awaiting data'}
         </span>
+        <span>{nextRefreshInSec !== null ? `Next refresh in ${nextRefreshInSec}s` : 'No live countdown'}</span>
         <span>{scanCount > 0 ? `${scanCount} scans` : 'No scans yet'}</span>
       </div>
+      {refreshReason && (
+        <div className="mb-3 rounded-lg border border-blue-200 bg-blue-50 p-2 text-xs text-slate-700">
+          {refreshReason}
+        </div>
+      )}
 
       {error && (
         <div className="mb-4 rounded-lg border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-200">
@@ -142,7 +259,7 @@ export default function CongestionPanel() {
           </div>
 
           {/* Bottleneck Edge + Affected Nodes */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className={`grid grid-cols-2 gap-2 transition-all ${isRefreshing ? 'animate-pulse' : ''}`}>
             {bottleneck.bottleneckEdge && (
               <div className="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
                 <p className="text-xs text-slate-500 mb-1.5 flex items-center gap-1 font-semibold">
@@ -204,8 +321,8 @@ export default function CongestionPanel() {
               onClick={() => setLiveMode((value) => !value)}
               className={`w-full ${liveMode ? 'bg-amber-100 hover:bg-amber-200 text-amber-700 border-amber-200' : 'bg-blue-600 hover:bg-blue-700 text-white border-blue-600'} border px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 shadow-sm`}
             >
-              <RefreshCw size={14} />
-              {liveMode ? 'Stop Live Monitoring' : 'Start Live Monitoring'}
+              <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
+              {liveMode ? (isRefreshing ? 'Refreshing Live Data' : 'Stop Live Monitoring') : 'Start Live Monitoring'}
             </button>
           </div>
         </div>
