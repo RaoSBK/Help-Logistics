@@ -155,7 +155,7 @@ export default function RoutingPanel() {
             )}
           </div>
           <button onClick={() => setAlternateRoute(null)} className="w-full mt-auto bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 text-sm font-semibold py-2 rounded-lg transition-colors shadow-sm">
-            Reset Demo
+            Reset Route
           </button>
         </div>
       )}
