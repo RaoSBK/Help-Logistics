@@ -38,12 +38,12 @@ The system automatically injects simulated disruptions (traffic delays, road clo
 |---|---|
 | 🗺️ **Live Route Monitor** | Real-time route visualization with Socket.IO, showing optimal paths as disruptions occur |
 | ⚠️ **Disruption Risk Scoring** | Weighted scoring engine factoring route, weather, traffic, and time-of-day |
-| 🔁 **Alternate Route Finder** | A\* pathfinding with live traffic multipliers and route preference modes |
-| ⏱️ **ETA Prediction** | Delivery time estimates with traffic/weather delay breakdowns and confidence scores |
 | 🚦 **Bottleneck Detection** | Congestion analysis across network corridors with severity scoring |
+| ⏱️ **ETA Prediction** | Delivery time estimates with traffic/weather delay breakdowns and confidence scores |
+| 🔁 **Alternate Route Finder** | A\* pathfinding with live traffic multipliers and route preference modes |
 | 🤖 **Logistics Copilot** | AI chat interface for rerouting advice, risk inquiries, and supply chain Q&A |
 | 📊 **Dashboard Metrics** | Live KPI cards and recent shipments table |
-| ⚡ **Real-time Simulation** | Auto-firing disruption engine that mutates graph weights and recomputes routes every 12 seconds |
+| ⚡ **Real-time Simulation** | Auto-firing disruption engine that mutates graph weights and recomputes routes every 12
 
 ---
 
@@ -167,7 +167,7 @@ Help-Logistics/
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                        FRONTEND (React)                      │
+│                        FRONTEND (React)                     │
 │                                                             │
 │  Dashboard ──► LiveRouteDashboard ──► RouteVisualizer       │
 │             ├─► CopilotPanel (AI Chat + Widgets)            │
@@ -189,7 +189,7 @@ Help-Logistics/
 │  POST /api/detect-bottleneck ► congestionEngine      │   │  │
 │  POST /api/copilot/query   ──► copilotEngine         │   │  │
 │                                     │                │   │  │
-│              Socket.IO Server ◄─────┴─ eventBus ◄───┘   │  │
+│              Socket.IO Server ◄─────┴─ eventBus ◄───┘    │  │
 │                    │                                      │  │
 │         disruptionEngine (12s interval)                   │  │
 │           ├─ trafficFeedService                           │  │
@@ -242,7 +242,7 @@ npm run dev
 
 ### 4. Open the WebApp
 
-Navigate to **http://localhost:5173** in your browser. The dashboard will connect to the backend via WebSocket automatically and begin the live disruption simulation.
+Navigate to **https://frontend-cyan-five-79.vercel.app/** in your browser. The dashboard will connect to the backend via WebSocket automatically and begin the live disruption simulation.
 
 ### Available Scripts
 

@@ -1,4 +1,4 @@
-import { ShieldAlert, Truck, Map, Clock, Wifi, WifiOff } from 'lucide-react';
+import { ShieldAlert, Truck, Map, Clock, WifiOff } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { useLiveRoute } from '../live-routing/useLiveRoute';
 import { useEffect, useRef, useState } from 'react';

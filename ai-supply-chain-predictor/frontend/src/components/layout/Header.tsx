@@ -1,4 +1,4 @@
-import { Bell, Sun, Moon, X, CheckCheck, Trash2, User, LogOut, Settings, ChevronDown } from 'lucide-react';
+import { Bell, Sun, Moon, X, CheckCheck, Trash2, User, LogOut, Settings } from 'lucide-react';
 import { useStore, type AppNotification } from '../../store/useStore';
 import { useRef, useState, useEffect } from 'react';
 

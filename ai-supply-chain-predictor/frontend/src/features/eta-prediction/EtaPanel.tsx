@@ -9,7 +9,7 @@ export default function EtaPanel() {
 
   useEffect(() => {
     // Create a dedicated socket connection for ETA data
-    const etaSocket = io('http://localhost:3001');
+    const etaSocket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:3001');
     socketRef.current = etaSocket;
 
     const handleData = (data: any) => {
