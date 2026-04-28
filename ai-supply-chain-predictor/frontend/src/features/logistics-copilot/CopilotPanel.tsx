@@ -62,7 +62,7 @@ export default function CopilotPanel() {
   };
 
   return (
-    <div className="glass-panel flex flex-col h-full min-h-[500px]">
+    <div className="glass-panel flex flex-col h-[620px] min-h-[620px] overflow-hidden">
       <h2 className="text-sm font-bold mb-4 flex items-center gap-2 pb-3 border-b border-slate-200 dark:border-slate-600">
         <div className="bg-blue-50 dark:bg-blue-500/15 p-1.5 rounded-lg border border-blue-200 dark:border-blue-500/30">
           <Bot className="text-blue-500" size={16} />
@@ -70,7 +70,7 @@ export default function CopilotPanel() {
         Logistics Copilot
       </h2>
       
-      <div className="flex-1 mb-4 space-y-4 pr-2">
+      <div className="flex-1 mb-4 space-y-4 pr-2 overflow-y-auto pb-5">
         {messages.map((msg, i) => (
           <div key={i} className={`flex gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
             {msg.sender === 'ai' && (

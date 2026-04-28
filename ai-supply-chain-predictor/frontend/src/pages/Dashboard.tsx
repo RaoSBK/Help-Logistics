@@ -38,7 +38,7 @@ export default function Dashboard() {
             </div>
 
             {/* Right Column: Copilot */}
-            <div className="xl:col-span-4 flex flex-col h-full">
+            <div className="xl:col-span-4 self-start sticky top-24">
               <CopilotPanel />
             </div>
 
