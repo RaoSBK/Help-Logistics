@@ -32,16 +32,16 @@ export default function RiskPanel() {
   return (
     <div className="glass-panel relative overflow-hidden group h-full flex flex-col">
       <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-10 transition-opacity">
-        <ShieldAlert size={80} className="text-slate-900" />
+        <ShieldAlert size={80} className="text-slate-900 dark:text-slate-100" />
       </div>
-      <h2 className="text-sm font-bold mb-4 flex items-center gap-2 text-slate-900">
+      <h2 className="text-sm font-bold mb-4 flex items-center gap-2">
         <ShieldAlert className="text-blue-500" size={16} />
         AI Risk Engine
       </h2>
       
       {!riskScore ? (
         <div className="flex flex-col items-center justify-center py-8 flex-1">
-          <p className="text-slate-500 mb-4 text-center text-sm">No active shipment analyzed.</p>
+          <p className="text-slate-500 dark:text-slate-400 mb-4 text-center text-sm">No active shipment analyzed.</p>
           <button onClick={fetchScore} disabled={loading} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 text-sm">
             {loading ? <RefreshCw className="animate-spin" size={16} /> : 'Scan Current Route'}
           </button>
@@ -56,51 +56,51 @@ export default function RiskPanel() {
               {riskScore.level} Risk
             </div>
           </div>
-          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 shadow-sm">
-            <p className="text-sm text-slate-700 leading-relaxed italic border-l-2 border-blue-500 pl-3">
+          <div className="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-lg border border-slate-200 dark:border-slate-600 shadow-sm">
+            <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed italic border-l-2 border-blue-500 pl-3">
               "{riskScore.explanation}"
             </p>
           </div>
           
           {/* Risk Factors Breakdown */}
           {factors && (
-            <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-              <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">
+            <div className="bg-white dark:bg-slate-700/50 p-4 rounded-lg border border-slate-200 dark:border-slate-600 shadow-sm">
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3 flex items-center gap-2">
                 <AlertTriangle size={14} className="text-amber-500" />
                 Risk Factors
               </h3>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <Route size={14} className="text-purple-500" />
-                  <span className="text-xs text-slate-600 flex-1 font-medium">Route</span>
-                  <div className="flex-1 bg-slate-100 rounded-full h-1.5">
+                  <span className="text-xs text-slate-600 dark:text-slate-400 flex-1 font-medium">Route</span>
+                  <div className="flex-1 bg-slate-100 dark:bg-slate-600 rounded-full h-1.5">
                     <div className="bg-purple-500 h-1.5 rounded-full" style={{ width: `${Math.min(factors.route, 100)}%` }}></div>
                   </div>
-                  <span className="text-xs text-slate-900 font-semibold w-8 text-right">{factors.route}%</span>
+                  <span className="text-xs text-slate-900 dark:text-slate-200 font-semibold w-8 text-right">{factors.route}%</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CloudRain size={14} className="text-blue-500" />
-                  <span className="text-xs text-slate-600 flex-1 font-medium">Weather</span>
-                  <div className="flex-1 bg-slate-100 rounded-full h-1.5">
+                  <span className="text-xs text-slate-600 dark:text-slate-400 flex-1 font-medium">Weather</span>
+                  <div className="flex-1 bg-slate-100 dark:bg-slate-600 rounded-full h-1.5">
                     <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${Math.min(factors.weather, 100)}%` }}></div>
                   </div>
-                  <span className="text-xs text-slate-900 font-semibold w-8 text-right">{factors.weather}%</span>
+                  <span className="text-xs text-slate-900 dark:text-slate-200 font-semibold w-8 text-right">{factors.weather}%</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Car size={14} className="text-orange-500" />
-                  <span className="text-xs text-slate-600 flex-1 font-medium">Traffic</span>
-                  <div className="flex-1 bg-slate-100 rounded-full h-1.5">
+                  <span className="text-xs text-slate-600 dark:text-slate-400 flex-1 font-medium">Traffic</span>
+                  <div className="flex-1 bg-slate-100 dark:bg-slate-600 rounded-full h-1.5">
                     <div className="bg-orange-500 h-1.5 rounded-full" style={{ width: `${Math.min(factors.traffic, 100)}%` }}></div>
                   </div>
-                  <span className="text-xs text-slate-900 font-semibold w-8 text-right">{factors.traffic}%</span>
+                  <span className="text-xs text-slate-900 dark:text-slate-200 font-semibold w-8 text-right">{factors.traffic}%</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Clock size={14} className="text-emerald-500" />
-                  <span className="text-xs text-slate-600 flex-1 font-medium">Time</span>
-                  <div className="flex-1 bg-slate-100 rounded-full h-1.5">
+                  <span className="text-xs text-slate-600 dark:text-slate-400 flex-1 font-medium">Time</span>
+                  <div className="flex-1 bg-slate-100 dark:bg-slate-600 rounded-full h-1.5">
                     <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${Math.min(factors.time, 100)}%` }}></div>
                   </div>
-                  <span className="text-xs text-slate-900 font-semibold w-8 text-right">{factors.time}%</span>
+                  <span className="text-xs text-slate-900 dark:text-slate-200 font-semibold w-8 text-right">{factors.time}%</span>
                 </div>
               </div>
             </div>
@@ -108,8 +108,8 @@ export default function RiskPanel() {
           
           {/* Risk History Trend */}
           {riskHistory.length > 1 && (
-            <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-              <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">
+            <div className="bg-white dark:bg-slate-700/50 p-4 rounded-lg border border-slate-200 dark:border-slate-600 shadow-sm">
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3 flex items-center gap-2">
                 <TrendingUp size={14} className="text-blue-500" />
                 Risk Trend (Last 5 Scans)
               </h3>
@@ -120,14 +120,14 @@ export default function RiskPanel() {
                       className={`w-full rounded-t ${score > 60 ? 'bg-red-500' : score > 30 ? 'bg-amber-500' : 'bg-emerald-500'} transition-all duration-300 opacity-80`}
                       style={{ height: `${(score / 100) * 100}%` }}
                     ></div>
-                    <span className="text-[10px] text-slate-500 font-semibold mt-1">{score}</span>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold mt-1">{score}</span>
                   </div>
                 ))}
               </div>
             </div>
           )}
           
-          <button onClick={fetchScore} className="mt-auto w-full text-blue-600 hover:bg-slate-50 border border-slate-200 text-sm font-semibold transition-colors flex items-center justify-center gap-2 py-2.5 rounded-lg shadow-sm">
+          <button onClick={fetchScore} className="mt-auto w-full text-blue-600 dark:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-sm font-semibold transition-colors flex items-center justify-center gap-2 py-2.5 rounded-lg shadow-sm">
             <RefreshCw size={14} /> Re-evaluate Risk
           </button>
         </div>

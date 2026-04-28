@@ -11,7 +11,7 @@ import RecentShipments from '../features/dashboard/RecentShipments';
 
 export default function Dashboard() {
   return (
-    <div className="flex h-screen bg-[#f8fafc] overflow-hidden font-sans text-slate-900">
+    <div className="flex h-screen bg-[#f8fafc] dark:bg-[#0f172a] overflow-hidden font-sans text-slate-900 dark:text-slate-100">
       <Sidebar />
       
       <div className="flex-1 ml-64 flex flex-col h-screen overflow-y-auto">

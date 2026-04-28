@@ -86,7 +86,7 @@ export default function TopMetrics() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
             </span>
-            <span className="text-xs font-semibold text-emerald-600 uppercase tracking-wide">Live</span>
+            <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">Live</span>
           </>
         ) : (
           <>
@@ -100,12 +100,12 @@ export default function TopMetrics() {
 
         {/* High Risk Shipments */}
         <div className="glass-panel flex items-center gap-4 p-5 transition-all duration-300">
-          <div className="w-12 h-12 rounded-xl bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0">
+          <div className="w-12 h-12 rounded-xl bg-red-50 dark:bg-red-500/15 text-red-500 flex items-center justify-center flex-shrink-0">
             <ShieldAlert size={24} />
           </div>
           <div>
-            <div className="text-xs font-semibold text-slate-500 uppercase">High Risk Shipments</div>
-            <div className="text-2xl font-bold text-slate-900 mt-0.5 tabular-nums">{animHighRisk}</div>
+            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">High Risk Shipments</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white mt-0.5 tabular-nums">{animHighRisk}</div>
             <div className="text-xs font-medium mt-1 flex items-center gap-1">
               <Trend t={riskTrend} />
             </div>
@@ -114,12 +114,12 @@ export default function TopMetrics() {
 
         {/* Active Shipments */}
         <div className="glass-panel flex items-center gap-4 p-5 transition-all duration-300">
-          <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center flex-shrink-0">
+          <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-500/15 text-emerald-500 flex items-center justify-center flex-shrink-0">
             <Truck size={24} />
           </div>
           <div>
-            <div className="text-xs font-semibold text-slate-500 uppercase">Active Shipments</div>
-            <div className="text-2xl font-bold text-slate-900 mt-0.5 tabular-nums">{animActive}</div>
+            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Active Shipments</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white mt-0.5 tabular-nums">{animActive}</div>
             <div className="text-xs font-medium mt-1 flex items-center gap-1">
               <Trend t={activeTrend} invert />
             </div>
@@ -128,12 +128,12 @@ export default function TopMetrics() {
 
         {/* Routes Monitored */}
         <div className="glass-panel flex items-center gap-4 p-5 transition-all duration-300">
-          <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-500 flex items-center justify-center flex-shrink-0">
+          <div className="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-500/15 text-purple-500 flex items-center justify-center flex-shrink-0">
             <Map size={24} />
           </div>
           <div>
-            <div className="text-xs font-semibold text-slate-500 uppercase">Routes Monitored</div>
-            <div className="text-2xl font-bold text-slate-900 mt-0.5 tabular-nums">{animRoutes}</div>
+            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Routes Monitored</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white mt-0.5 tabular-nums">{animRoutes}</div>
             <div className="text-xs font-medium mt-1 flex items-center gap-1">
               <Trend t={routeTrend} invert />
             </div>
@@ -142,12 +142,12 @@ export default function TopMetrics() {
 
         {/* Avg Delay */}
         <div className="glass-panel flex items-center gap-4 p-5 transition-all duration-300">
-          <div className="w-12 h-12 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center flex-shrink-0">
+          <div className="w-12 h-12 rounded-xl bg-orange-50 dark:bg-orange-500/15 text-orange-500 flex items-center justify-center flex-shrink-0">
             <Clock size={24} />
           </div>
           <div>
-            <div className="text-xs font-semibold text-slate-500 uppercase">Avg. Delay (ETA)</div>
-            <div className="text-2xl font-bold text-slate-900 mt-0.5 tabular-nums">{animAvgDelay} m</div>
+            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">Avg. Delay (ETA)</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white mt-0.5 tabular-nums">{animAvgDelay} m</div>
             <div className="text-xs font-medium mt-1 flex items-center gap-1">
               <Trend t={delayTrend} />
             </div>

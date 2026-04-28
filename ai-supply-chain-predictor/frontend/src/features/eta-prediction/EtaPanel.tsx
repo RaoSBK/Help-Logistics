@@ -60,9 +60,9 @@ export default function EtaPanel() {
   const getWidth = (val: number) => eta ? `${(val / total) * 100}%` : '0%';
 
   return (
-    <div className="glass-panel h-full flex flex-col justify-between font-sans text-slate-900">
+    <div className="glass-panel h-full flex flex-col justify-between font-sans">
       <div className="mb-5 flex justify-between items-center">
-        <h2 className="text-sm font-bold flex items-center gap-2 text-slate-900">
+        <h2 className="text-sm font-bold flex items-center gap-2">
           <Clock className="text-blue-500" size={16} />
           Predictive ETA Offset
         </h2>
@@ -71,49 +71,49 @@ export default function EtaPanel() {
       <div className="space-y-4 flex-1">
         {/* Top Row */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-            <p className="text-[10px] text-slate-500 mb-1 uppercase font-semibold tracking-wider">Base Travel Time</p>
-            <p className="text-2xl font-bold text-slate-900 mb-1">{eta ? formatHoursMins(eta.breakdown.base) : '0h 0m'}</p>
-            <p className="text-xs text-slate-500">Base route duration</p>
+          <div className="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-lg border border-slate-200 dark:border-slate-600">
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 mb-1 uppercase font-semibold tracking-wider">Base Travel Time</p>
+            <p className="text-2xl font-bold text-slate-900 dark:text-white mb-1">{eta ? formatHoursMins(eta.breakdown.base) : '0h 0m'}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Base route duration</p>
           </div>
-          <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 shadow-[0_0_15px_rgba(59,130,246,0.15)] relative">
-            <p className="text-[10px] text-blue-600 mb-1 uppercase font-semibold tracking-wider">AI Adjusted ETA</p>
-            <p className="text-2xl font-bold text-blue-700 mb-1">{eta ? formatHoursMins(eta.totalEtaMinutes) : '0h 0m'}</p>
-            <p className="text-xs text-blue-600/80">{eta ? formatArrivalDate(eta.estimatedArrival) : 'Arrival Invalid Date'}</p>
+          <div className="bg-blue-50 dark:bg-blue-500/15 p-4 rounded-lg border border-blue-200 dark:border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.15)] relative">
+            <p className="text-[10px] text-blue-600 dark:text-blue-400 mb-1 uppercase font-semibold tracking-wider">AI Adjusted ETA</p>
+            <p className="text-2xl font-bold text-blue-700 dark:text-blue-300 mb-1">{eta ? formatHoursMins(eta.totalEtaMinutes) : '0h 0m'}</p>
+            <p className="text-xs text-blue-600/80 dark:text-blue-400/80">{eta ? formatArrivalDate(eta.estimatedArrival) : 'Arrival Invalid Date'}</p>
           </div>
         </div>
 
         {/* Middle Row */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-            <p className="text-[10px] text-slate-500 mb-1 uppercase font-semibold tracking-wider">Traffic Delay</p>
-            <p className="text-xl font-bold text-slate-900">{eta ? formatHoursMins(eta.breakdown.trafficDelay) : '0h 0m'}</p>
+          <div className="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-lg border border-slate-200 dark:border-slate-600">
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 mb-1 uppercase font-semibold tracking-wider">Traffic Delay</p>
+            <p className="text-xl font-bold text-slate-900 dark:text-white">{eta ? formatHoursMins(eta.breakdown.trafficDelay) : '0h 0m'}</p>
           </div>
-          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
-            <p className="text-[10px] text-slate-500 mb-1 uppercase font-semibold tracking-wider">Weather Delay</p>
-            <p className="text-xl font-bold text-slate-900">{eta ? formatHoursMins(eta.breakdown.weatherDelay) : '0h 0m'}</p>
+          <div className="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-lg border border-slate-200 dark:border-slate-600">
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 mb-1 uppercase font-semibold tracking-wider">Weather Delay</p>
+            <p className="text-xl font-bold text-slate-900 dark:text-white">{eta ? formatHoursMins(eta.breakdown.weatherDelay) : '0h 0m'}</p>
           </div>
         </div>
 
         {/* Bottom Row */}
         <div className="grid grid-cols-3 gap-4">
-          <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
-            <p className="text-[10px] text-slate-500 mb-1 uppercase font-semibold tracking-wider">Congestion</p>
-            <p className="text-lg font-bold text-slate-900">{eta ? formatHoursMins(eta.breakdown.congestion) : '0h 0m'}</p>
+          <div className="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-lg border border-slate-200 dark:border-slate-600">
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 mb-1 uppercase font-semibold tracking-wider">Congestion</p>
+            <p className="text-lg font-bold text-slate-900 dark:text-white">{eta ? formatHoursMins(eta.breakdown.congestion) : '0h 0m'}</p>
           </div>
-          <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
-            <p className="text-[10px] text-slate-500 mb-1 uppercase font-semibold tracking-wider">Risk Buffer</p>
-            <p className="text-lg font-bold text-slate-900">{eta ? formatHoursMins(eta.breakdown.riskBuffer) : '0h 0m'}</p>
+          <div className="bg-slate-50 dark:bg-slate-700/50 p-3 rounded-lg border border-slate-200 dark:border-slate-600">
+            <p className="text-[10px] text-slate-500 dark:text-slate-400 mb-1 uppercase font-semibold tracking-wider">Risk Buffer</p>
+            <p className="text-lg font-bold text-slate-900 dark:text-white">{eta ? formatHoursMins(eta.breakdown.riskBuffer) : '0h 0m'}</p>
           </div>
-          <div className="bg-blue-50 p-3 rounded-lg border border-blue-200 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
-            <p className="text-[10px] text-blue-600 mb-1 uppercase font-semibold tracking-wider">Confidence</p>
-            <p className="text-lg font-bold text-blue-700">{eta ? `${eta.confidence}%` : '0%'}</p>
+          <div className="bg-blue-50 dark:bg-blue-500/15 p-3 rounded-lg border border-blue-200 dark:border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
+            <p className="text-[10px] text-blue-600 dark:text-blue-400 mb-1 uppercase font-semibold tracking-wider">Confidence</p>
+            <p className="text-lg font-bold text-blue-700 dark:text-blue-300">{eta ? `${eta.confidence}%` : '0%'}</p>
           </div>
         </div>
 
         {/* ETA Breakdown Bar */}
-        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-4 shadow-sm">
-          <p className="text-[10px] text-slate-500 uppercase font-semibold tracking-wider mb-3">ETA Breakdown</p>
+        <div className="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-lg border border-slate-200 dark:border-slate-600 mt-4 shadow-sm">
+          <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-semibold tracking-wider mb-3">ETA Breakdown</p>
           
           <div className="h-3 w-full rounded-full flex overflow-hidden mb-3">
             <div className="h-full bg-blue-500 transition-all duration-500" style={{ width: getWidth(eta?.breakdown.base || 0) }}></div>
@@ -133,15 +133,15 @@ export default function EtaPanel() {
         </div>
 
         {/* Explanation */}
-        <div className="bg-slate-50 p-4 rounded-lg border-l-4 border-l-blue-500 border border-slate-200 shadow-sm min-h-[72px]">
-          <p className="text-sm text-slate-700 leading-relaxed min-h-[40px]">
+        <div className="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-lg border-l-4 border-l-blue-500 border border-slate-200 dark:border-slate-600 shadow-sm min-h-[72px]">
+          <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed min-h-[40px]">
             {eta ? eta.explanation : 'Waiting for network data...'}
           </p>
         </div>
       </div>
 
       <div className="text-center pt-6 mt-auto">
-        <button onClick={handleRefresh} className="text-xs text-blue-600 font-semibold hover:text-blue-700 transition-colors flex items-center justify-center gap-1.5 mx-auto bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg border border-blue-200 cursor-pointer">
+        <button onClick={handleRefresh} className="text-xs text-blue-600 dark:text-blue-400 font-semibold hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center justify-center gap-1.5 mx-auto bg-blue-50 dark:bg-blue-500/15 hover:bg-blue-100 dark:hover:bg-blue-500/25 px-4 py-2 rounded-lg border border-blue-200 dark:border-blue-500/30 cursor-pointer">
           <RefreshCw size={12} className={isRefreshing ? 'animate-spin' : ''} /> 
           {isRefreshing ? 'Refreshing...' : 'Refresh Live Data'}
         </button>

@@ -47,7 +47,7 @@ export default function RoutingPanel() {
 
   return (
     <div className="glass-panel h-full flex flex-col">
-      <h2 className="text-sm font-bold flex items-center gap-2 mb-4 text-slate-900">
+      <h2 className="text-sm font-bold flex items-center gap-2 mb-4">
         <Map className="text-blue-500" size={16} />
         Smart Routing Optimization
       </h2>
@@ -55,26 +55,26 @@ export default function RoutingPanel() {
 
       {!alternateRoute ? (
         <div className="py-2 space-y-4 flex-1 flex flex-col justify-between">
-          <div className="grid grid-cols-2 gap-3 text-[10px] text-slate-900">
+          <div className="grid grid-cols-2 gap-3 text-[10px]">
             <div>
-              <label className="block text-slate-500 font-semibold mb-1 uppercase">Source</label>
-              <select value={start} onChange={(e) => setStart(e.target.value)} className="w-full bg-white border border-slate-200 rounded p-2 focus:ring-1 focus:ring-blue-500 outline-none">
+              <label className="block text-slate-500 dark:text-slate-400 font-semibold mb-1 uppercase">Source</label>
+              <select value={start} onChange={(e) => setStart(e.target.value)} className="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded p-2 focus:ring-1 focus:ring-blue-500 outline-none text-slate-900 dark:text-slate-100">
                 {nodeOptions.map((option) => (
                   <option key={option.value} value={option.value}>{option.label} ({option.value})</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block text-slate-500 font-semibold mb-1 uppercase">Destination</label>
-              <select value={end} onChange={(e) => setEnd(e.target.value)} className="w-full bg-white border border-slate-200 rounded p-2 focus:ring-1 focus:ring-blue-500 outline-none">
+              <label className="block text-slate-500 dark:text-slate-400 font-semibold mb-1 uppercase">Destination</label>
+              <select value={end} onChange={(e) => setEnd(e.target.value)} className="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded p-2 focus:ring-1 focus:ring-blue-500 outline-none text-slate-900 dark:text-slate-100">
                 {nodeOptions.map((option) => (
                   <option key={option.value} value={option.value}>{option.label} ({option.value})</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block text-slate-500 font-semibold mb-1 uppercase">Disruption Type</label>
-              <select value={disruptionType} onChange={(e) => setDisruptionType(e.target.value)} className="w-full bg-white border border-slate-200 rounded p-2 focus:ring-1 focus:ring-blue-500 outline-none">
+              <label className="block text-slate-500 dark:text-slate-400 font-semibold mb-1 uppercase">Disruption Type</label>
+              <select value={disruptionType} onChange={(e) => setDisruptionType(e.target.value)} className="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded p-2 focus:ring-1 focus:ring-blue-500 outline-none text-slate-900 dark:text-slate-100">
                 <option value="none">No disruption (live traffic only)</option>
                 <option value="closure_ab">Accident / closure (A → B)</option>
                 <option value="traffic_bc">Weather congestion (B → C)</option>
@@ -82,15 +82,15 @@ export default function RoutingPanel() {
               </select>
             </div>
             <div>
-              <label className="block text-slate-500 font-semibold mb-1 uppercase">Route Preference</label>
-              <select value={routePreference} onChange={(e) => setRoutePreference(e.target.value)} className="w-full bg-white border border-slate-200 rounded p-2 focus:ring-1 focus:ring-blue-500 outline-none">
+              <label className="block text-slate-500 dark:text-slate-400 font-semibold mb-1 uppercase">Route Preference</label>
+              <select value={routePreference} onChange={(e) => setRoutePreference(e.target.value)} className="w-full bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded p-2 focus:ring-1 focus:ring-blue-500 outline-none text-slate-900 dark:text-slate-100">
                 <option value="fastest">Fastest route</option>
                 <option value="safest">Safest route</option>
               </select>
             </div>
           </div>
 
-          <div className="text-[10px] text-slate-500 leading-snug">
+          <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-snug">
             <p><strong>Tip:</strong> Keep the start and end points the same to compare the original route with the optimized suggestion.</p>
             <p className="mt-1">The route suggestion uses live network conditions to reduce delays or avoid blocked roads.</p>
           </div>
@@ -101,28 +101,28 @@ export default function RoutingPanel() {
         </div>
       ) : (
         <div className="space-y-4 flex-1 flex flex-col justify-between">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-            <p className="text-[10px] text-red-600 font-semibold mb-1 uppercase tracking-wider">Original Route (Blocked)</p>
-            <div className="flex items-center gap-2 text-slate-700 flex-wrap">
+          <div className="bg-red-50 dark:bg-red-500/15 border border-red-200 dark:border-red-500/30 rounded-lg p-3">
+            <p className="text-[10px] text-red-600 dark:text-red-400 font-semibold mb-1 uppercase tracking-wider">Original Route (Blocked)</p>
+            <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300 flex-wrap">
               {alternateRoute.originalRoute.map((node: string, i: number) => (
                 <div key={i} className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center text-xs font-bold border border-slate-200">{node}</div>
+                  <div className="w-6 h-6 rounded-full bg-white dark:bg-slate-700 flex items-center justify-center text-xs font-bold border border-slate-200 dark:border-slate-600">{node}</div>
                   {i < alternateRoute.originalRoute.length - 1 && <ArrowRight size={12} className="text-slate-400" />}
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+          <div className="bg-blue-50 dark:bg-blue-500/15 border border-blue-200 dark:border-blue-500/30 rounded-lg p-3">
             <div className="flex flex-wrap gap-2 items-center justify-between mb-3">
               <div>
-                <p className="text-[10px] text-blue-600 font-semibold uppercase tracking-wider">Optimized AI Route (A*)</p>
-                <p className="text-[12px] text-slate-700">Preference: {alternateRoute.routePreference || 'fastest'}</p>
-                <p className="text-[12px] text-slate-700">Score: {alternateRoute.metrics?.routeScore ?? 'N/A'}</p>
+                <p className="text-[10px] text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wider">Optimized AI Route (A*)</p>
+                <p className="text-[12px] text-slate-700 dark:text-slate-300">Preference: {alternateRoute.routePreference || 'fastest'}</p>
+                <p className="text-[12px] text-slate-700 dark:text-slate-300">Score: {alternateRoute.metrics?.routeScore ?? 'N/A'}</p>
               </div>
               <div className="space-y-1 text-right">
-                <p className="text-[10px] text-slate-500 uppercase tracking-wider">ETA delta</p>
-                <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">{alternateRoute.metrics?.delta}</span>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider">ETA delta</p>
+                <span className="text-[10px] bg-blue-100 dark:bg-blue-500/25 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full font-bold">{alternateRoute.metrics?.delta}</span>
               </div>
             </div>
             <div className="flex items-center gap-2 text-white mt-2 flex-wrap">
@@ -134,18 +134,18 @@ export default function RoutingPanel() {
               ))}
             </div>
 
-            <div className="mt-4 p-3 bg-white rounded-lg border border-slate-200 shadow-sm">
-              <p className="text-[10px] text-blue-600 font-semibold mb-2 uppercase tracking-wider">Live Network Insight</p>
-              <p className="text-xs text-slate-700 leading-relaxed">
+            <div className="mt-4 p-3 bg-white dark:bg-slate-700/50 rounded-lg border border-slate-200 dark:border-slate-600 shadow-sm">
+              <p className="text-[10px] text-blue-600 dark:text-blue-400 font-semibold mb-2 uppercase tracking-wider">Live Network Insight</p>
+              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
                 {alternateRoute.liveStatus?.message || 'Route calculated using the latest available network conditions.'}
               </p>
             </div>
             {alternateRoute.routeSegments?.length > 0 && (
-              <div className="mt-4 p-3 bg-slate-50 rounded-lg border border-slate-200 shadow-sm">
-                <p className="text-[10px] text-slate-500 font-semibold mb-2 uppercase tracking-wider">Route Segments</p>
+              <div className="mt-4 p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg border border-slate-200 dark:border-slate-600 shadow-sm">
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold mb-2 uppercase tracking-wider">Route Segments</p>
                 <div className="space-y-2">
                   {alternateRoute.routeSegments.map((segment: any, i: number) => (
-                    <div key={i} className="flex items-center justify-between gap-2 text-[11px] text-slate-700">
+                    <div key={i} className="flex items-center justify-between gap-2 text-[11px] text-slate-700 dark:text-slate-300">
                       <span>{segment.from} → {segment.to}</span>
                       <span>{segment.time}m · {segment.risk}</span>
                     </div>
@@ -154,7 +154,7 @@ export default function RoutingPanel() {
               </div>
             )}
           </div>
-          <button onClick={() => setAlternateRoute(null)} className="w-full mt-auto bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 text-sm font-semibold py-2 rounded-lg transition-colors shadow-sm">
+          <button onClick={() => setAlternateRoute(null)} className="w-full mt-auto bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600 text-sm font-semibold py-2 rounded-lg transition-colors shadow-sm">
             Reset Route
           </button>
         </div>
