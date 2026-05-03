@@ -686,9 +686,10 @@ If you have any questions, suggestions, or would like to collaborate, feel free 
 - **Project:** Ship Guard AI (Help Logistics) 
 
 - **Email:** correctinfoweb@gmail.com 
-- **GitHub:** https://github.com/RaoSBK/Help-Logistics.git 
-- **Youtube link:**  
-
+- **GitHub:** https://github.com/RaoSBK/Help-Logistics.git
+- **Ppt link:** https://drive.google.com/file/d/1SEFkQmj_OMEO-k0CP1MDoPhuHKQUUx8t/view?usp=drive_link
+- **Video link:** https://drive.google.com/file/d/1Hv5mBIy7h6IfpyS_HTWj6NRBvJ-ebmuP/view?usp=sharing 
+- **Youtube link:** https://youtu.be/vfZh4O6DjTY
 ---
 
 <div align="center">
